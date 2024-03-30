@@ -182,7 +182,7 @@ int16_t CAN_transform_3508_to_2006(int16_t cur3508)
     return cur2006;
 }
 
-
+#include "usart.h"
 
 void CAN_cmd_chassis(int16_t motor1, int16_t motor2, int16_t motor3, int16_t motor4)
 {
@@ -190,6 +190,8 @@ void CAN_cmd_chassis(int16_t motor1, int16_t motor2, int16_t motor3, int16_t mot
   motor2 = CAN_transform_3508_to_2006(motor2);
   motor3 = CAN_transform_3508_to_2006(motor3);
   motor4 = CAN_transform_3508_to_2006(motor4);
+
+     
     uint32_t send_mail_box;
     chassis_tx_message.StdId = CAN_CHASSIS_ALL_ID;
     chassis_tx_message.IDE = CAN_ID_STD;

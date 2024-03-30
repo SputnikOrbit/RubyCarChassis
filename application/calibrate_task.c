@@ -262,12 +262,12 @@ void calibrate_task(void const *pvParameters)
 {
     static uint8_t i = 0;
     
-    calibrate_RC = get_remote_ctrl_point_cali();
+    //calibrate_RC = get_remote_ctrl_point_cali();
 
     while (1)
     {
 
-        RC_cmd_to_calibrate();
+        //RC_cmd_to_calibrate();
 
         for (i = 0; i < CALI_LIST_LENGHT; i++)
         {

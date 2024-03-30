@@ -27,16 +27,18 @@ Project File Date:  03/28/2024
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin'
 Build target 'chassis_task'
-compiling main.c...
-../Src/main.c(91): warning:  #223-D: function "strlen" declared implicitly
-      HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), 100);
-../Src/main.c(86): warning:  #177-D: variable "chassis_move_ptr"  was declared but never referenced
-      chassis_move_t *chassis_move_ptr = &chassis_move;
-../Src/main.c: 2 warnings, 0 errors
+compiling chassis_task.c...
+..\application\chassis_task.c(203): warning:  #177-D: variable "buffer"  was declared but never referenced
+          char buffer [10];
+..\application\chassis_task.c(355): warning:  #111-D: statement is unreachable
+      if (chassis_move_transit == NULL)
+..\application\chassis_task.c(673): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              chassis_move_control_loop->motor_chassis[i].give_current =   (int16_t)(5000.0 * wheel_speed[i]);
+..\application\chassis_task.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=71000 RO-data=3100 RW-data=620 ZI-data=46348  
+Program Size: Code=68448 RO-data=2980 RW-data=588 ZI-data=46372  
 FromELF: creating hex file...
-"chassis_task\chassis_task.axf" - 0 Error(s), 2 Warning(s).
+"chassis_task\chassis_task.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 

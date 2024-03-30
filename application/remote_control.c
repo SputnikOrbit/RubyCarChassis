@@ -84,6 +84,8 @@ void remote_control_init(void)
   */
 const RC_ctrl_t *get_remote_control_point(void)
 {
+    RC_ctrl_t* rc_ctrl_ptr = &rc_ctrl;
+
     return &rc_ctrl;
 }
 

@@ -54,3 +54,4 @@ chassis_task\can_receive.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ti
 chassis_task\can_receive.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 chassis_task\can_receive.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 chassis_task\can_receive.o: ..\application\detect_task.h
+chassis_task\can_receive.o: ../Inc/usart.h

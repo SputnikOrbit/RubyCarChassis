@@ -126,20 +126,6 @@ void USART1_IRQHandler(void)
     HAL_UART_Transmit(&huart1, (uint8_t*)buffer2, strlen(buffer2), 100);
     HAL_UART_Transmit(&huart1, "\r\n", 2, 100);
 
-   // extern chassis_move_t chassis_move;
-
-  //  switch (data)
-  //  {
-  //    case 'w':
-  //       CAN_cmd_chassis(100, 100, 100, 100);
-  //       break;
-  //   case 's':
-  //       CAN_cmd_chassis(-100, -100, -100, -100);  
-  //   break; 
-  //   default:
-  //   break;
-  //  }
-  // }
 }
 }
 /* USER CODE END 0 */
@@ -193,7 +179,7 @@ int main(void)
     can_filter_init();
     delay_init();
     cali_param_init();
-    remote_control_init();
+    //remote_control_init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

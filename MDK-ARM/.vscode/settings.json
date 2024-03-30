@@ -9,6 +9,7 @@
         "led_flow_task.h": "c",
         "stm32f4xx_hal_tim.h": "c",
         "usart.h": "c",
-        "stm32f4xx_it.h": "c"
+        "stm32f4xx_it.h": "c",
+        "remote_control.h": "c"
     }
 }

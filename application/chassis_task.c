@@ -135,8 +135,32 @@ chassis_move_t chassis_move;
   * @param[in]      pvParameters: 空
   * @retval         none
   */
+RC_ctrl_t fake_signal;
+
+void write_fake_signal(RC_ctrl_t* fake_signal)
+{
+    fake_signal->rc.ch[0] = 0;
+    fake_signal->rc.ch[1] = 0;
+    fake_signal->rc.ch[2] = 0;
+    fake_signal->rc.ch[3] = 0;
+    //null channel
+    fake_signal->rc.ch[4] = 0;
+    fake_signal->rc.s[0] = 0;
+    fake_signal->rc.s[1] = 0;
+    fake_signal->mouse.x = 0;
+    fake_signal->mouse.y = 0;
+    fake_signal->mouse.z = 0;
+    fake_signal->mouse.press_l = 0;
+    fake_signal->mouse.press_r = 0;
+}
+
 void chassis_task(void const *pvParameters)
 {
+    //chassis fake signal
+    write_fake_signal(&fake_signal);
+    chassis_move.chassis_RC = &fake_signal;
+
+
     //SPUTNIK_ADDED: UART1 chassis task heartbeat
     extern UART_HandleTypeDef huart1;
     HAL_UART_Transmit(&huart1, "chassis_task started\n", 21, 100);
@@ -149,7 +173,11 @@ void chassis_task(void const *pvParameters)
     chassis_init(&chassis_move);
     //make sure all chassis motor is online,
     //判断底盘电机是否都在线
-    while (toe_is_error(CHASSIS_MOTOR1_TOE) || toe_is_error(CHASSIS_MOTOR2_TOE) || toe_is_error(CHASSIS_MOTOR3_TOE) || toe_is_error(CHASSIS_MOTOR4_TOE) || toe_is_error(DBUS_TOE))
+    // while (toe_is_error(CHASSIS_MOTOR1_TOE) || toe_is_error(CHASSIS_MOTOR2_TOE) || toe_is_error(CHASSIS_MOTOR3_TOE) || toe_is_error(CHASSIS_MOTOR4_TOE) || toe_is_error(DBUS_TOE))
+    // {
+    //     vTaskDelay(CHASSIS_CONTROL_TIME_MS);
+    // }
+    while (toe_is_error(CHASSIS_MOTOR1_TOE) || toe_is_error(CHASSIS_MOTOR2_TOE) || toe_is_error(CHASSIS_MOTOR3_TOE) || toe_is_error(CHASSIS_MOTOR4_TOE)  )
     {
         vTaskDelay(CHASSIS_CONTROL_TIME_MS);
     }
@@ -159,16 +187,20 @@ void chassis_task(void const *pvParameters)
     {
         //set chassis control mode
         //设置底盘控制模式
-        chassis_set_mode(&chassis_move);
+        chassis_set_mode(&chassis_move); //SPUTNIK MODEFIED
         //when mode changes, some data save
         //模式切换数据保存
+
         chassis_mode_change_control_transit(&chassis_move);
+
         //chassis data update
         //底盘数据更新
         chassis_feedback_update(&chassis_move);
         //set chassis control set-point 
         //底盘控制量设置
         chassis_set_contorl(&chassis_move);
+        HAL_UART_Transmit(&huart1, "I confirm currn ", 16, 100);
+        char buffer [10];
         //chassis control pid calculate
         //底盘控制PID计算
         chassis_control_loop(&chassis_move);
@@ -181,11 +213,11 @@ void chassis_task(void const *pvParameters)
             // when remote control is offline, chassis motor should receive zero current. 
             // 当遥控器掉线的时候，发送给底盘电机零电流.
             
-            
                 //send control current
                 //发送控制电流
                 CAN_cmd_chassis(chassis_move.motor_chassis[0].give_current, chassis_move.motor_chassis[1].give_current,
-                                chassis_move.motor_chassis[2].give_current, chassis_move.motor_chassis[3].give_current);
+                                chassis_move.motor_chassis[2].give_current, chassis_move.motor_chassis[3].give_current); 
+                              
                 // HAL_UART_Transmit(&huart1, "current show: ", 14, 100);
                 // char buffer[10];
                 // if (chassis_move.motor_chassis[0].give_current > motor0_setcur)
@@ -243,7 +275,10 @@ static void chassis_init(chassis_move_t *chassis_move_init)
     chassis_move_init->chassis_mode = CHASSIS_VECTOR_RAW;
     //get remote control point
     //获取遥控器指针
-    chassis_move_init->chassis_RC = get_remote_control_point();
+
+    //chassis_move_init->chassis_RC = get_remote_control_point();
+    chassis_move_init -> chassis_RC = NULL;
+
     //get gyro sensor euler angle point
     //获取陀螺仪姿态角指针
     chassis_move_init->chassis_INS_angle = get_INS_angle_point();
@@ -298,7 +333,8 @@ static void chassis_set_mode(chassis_move_t *chassis_move_mode)
         return;
     }
     //in file "chassis_behaviour.c"
-    chassis_behaviour_mode_set(chassis_move_mode);
+    //chassis_behaviour_mode_set(chassis_move_mode);
+    chassis_move_mode->chassis_mode = CHASSIS_VECTOR_RAW;
 }
 
 /**
@@ -313,6 +349,9 @@ static void chassis_set_mode(chassis_move_t *chassis_move_mode)
   */
 static void chassis_mode_change_control_transit(chassis_move_t *chassis_move_transit)
 {
+    //SPUTNIK BLOCKING
+    return;
+
     if (chassis_move_transit == NULL)
     {
         return;
@@ -401,7 +440,11 @@ static void chassis_feedback_update(chassis_move_t *chassis_move_update)
   */
 void chassis_rc_to_control_vector(fp32 *vx_set, fp32 *vy_set, chassis_move_t *chassis_move_rc_to_vector)
 {
-    if (chassis_move_rc_to_vector == NULL || vx_set == NULL || vy_set == NULL)
+    // if (chassis_move_rc_to_vector == NULL || vx_set == NULL || vy_set == NULL)
+    // {
+    //     return;
+    // }
+    if (chassis_move_rc_to_vector == NULL)
     {
         return;
     }
@@ -476,7 +519,10 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
 
     fp32 vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f;
     //get three control set-point, 获取三个控制设置值
-    chassis_behaviour_control_set(&vx_set, &vy_set, &angle_set, chassis_move_control);
+    // chassis_behaviour_control_set(&vx_set, &vy_set, &angle_set, chassis_move_control);
+
+    //SPUTNIK_ADDED: chassis rc fake
+    //chassis_move_control -> chassis_mode = CHASSIS_VECTOR_RAW;
 
     //follow gimbal mode
     //跟随云台模式
@@ -614,18 +660,27 @@ static void chassis_control_loop(chassis_move_t *chassis_move_control_loop)
 
     //mecanum wheel speed calculation
     //麦轮运动分解
+    
     chassis_vector_to_mecanum_wheel_speed(chassis_move_control_loop->vx_set,
                                           chassis_move_control_loop->vy_set, chassis_move_control_loop->wz_set, wheel_speed);
+
 
     if (chassis_move_control_loop->chassis_mode == CHASSIS_VECTOR_RAW)
     {
         
         for (i = 0; i < 4; i++)
         {
-            chassis_move_control_loop->motor_chassis[i].give_current = (int16_t)(wheel_speed[i]);
+            chassis_move_control_loop->motor_chassis[i].give_current =   (int16_t)(5000.0 * wheel_speed[i]);
         }
+
+        char buffer[10];
+              sprintf(buffer, "%d", chassis_move_control_loop->motor_chassis[i].give_current);
+
+                HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), 100);
+                HAL_UART_Transmit(&huart1, "\r\n", 2, 100);   
         //in raw mode, derectly return
         //raw控制直接返回
+
         return;
     }
 
