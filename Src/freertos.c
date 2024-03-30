@@ -25,7 +25,7 @@
 #include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */     
+/* USER CODE BEGIN Includes */
 
 #include "calibrate_task.h"
 #include "chassis_task.h"
@@ -169,7 +169,6 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_test_task */
 __weak void test_task(void const * argument)
 {
-
   /* USER CODE BEGIN test_task */
   /* Infinite loop */
   for(;;)
@@ -183,5 +182,3 @@ __weak void test_task(void const * argument)
 /* USER CODE BEGIN Application */
      
 /* USER CODE END Application */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

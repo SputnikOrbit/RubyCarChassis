@@ -27,6 +27,9 @@
 #include "CAN_receive.h"
 #include "detect_task.h"
 #include "INS_task.h"
+//引入Uart transmit
+#include "usart.h"
+#include <stdio.h>
 
 #define rc_deadband_limit(input, output, dealine)        \
     {                                                    \
@@ -134,6 +137,10 @@ chassis_move_t chassis_move;
   */
 void chassis_task(void const *pvParameters)
 {
+    //SPUTNIK_ADDED: UART1 chassis task heartbeat
+    extern UART_HandleTypeDef huart1;
+    HAL_UART_Transmit(&huart1, "chassis_task started\n", 21, 100);
+
     //wait a time 
     //空闲一段时间
     vTaskDelay(CHASSIS_TASK_INIT_TIME);
@@ -146,6 +153,7 @@ void chassis_task(void const *pvParameters)
     {
         vTaskDelay(CHASSIS_CONTROL_TIME_MS);
     }
+    //int motor0_setcur = chassis_move.motor_chassis[0].give_current;
 
     while (1)
     {
@@ -169,19 +177,26 @@ void chassis_task(void const *pvParameters)
         //确保至少一个电机在线， 这样CAN控制包可以被接收到
         if (!(toe_is_error(CHASSIS_MOTOR1_TOE) && toe_is_error(CHASSIS_MOTOR2_TOE) && toe_is_error(CHASSIS_MOTOR3_TOE) && toe_is_error(CHASSIS_MOTOR4_TOE)))
         {
-            //when remote control is offline, chassis motor should receive zero current. 
-            //当遥控器掉线的时候，发送给底盘电机零电流.
-            if (toe_is_error(DBUS_TOE))
-            {
-                CAN_cmd_chassis(0, 0, 0, 0);
-            }
-            else
-            {
+          /**/
+            // when remote control is offline, chassis motor should receive zero current. 
+            // 当遥控器掉线的时候，发送给底盘电机零电流.
+            
+            
                 //send control current
                 //发送控制电流
                 CAN_cmd_chassis(chassis_move.motor_chassis[0].give_current, chassis_move.motor_chassis[1].give_current,
                                 chassis_move.motor_chassis[2].give_current, chassis_move.motor_chassis[3].give_current);
-            }
+                // HAL_UART_Transmit(&huart1, "current show: ", 14, 100);
+                // char buffer[10];
+                // if (chassis_move.motor_chassis[0].give_current > motor0_setcur)
+                // {
+                //   motor0_setcur = chassis_move.motor_chassis[0].give_current;
+                // }
+                
+                // sprintf(buffer, "%d\r\n", motor0_setcur);
+                // HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), 100);
+
+            
         }
         //os delay
         //系统延时
@@ -520,6 +535,13 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
         chassis_move_control->chassis_cmd_slow_set_vx.out = 0.0f;
         chassis_move_control->chassis_cmd_slow_set_vy.out = 0.0f;
     }
+              //SPUTNIK_ADDED: UART1 chassis communication control
+    extern double keyset_vx;
+    extern double keyset_vy;
+    extern double keyset_wz;
+    chassis_move_control->vx_set += keyset_vx;
+    chassis_move_control->vy_set += keyset_vy;
+    chassis_move_control->wz_set += keyset_wz;
 }
 
 /**

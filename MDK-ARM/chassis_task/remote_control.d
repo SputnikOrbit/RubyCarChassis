@@ -1,7 +1,7 @@
 chassis_task\remote_control.o: ..\application\remote_control.c
 chassis_task\remote_control.o: ..\application\remote_control.h
 chassis_task\remote_control.o: ..\application\struct_typedef.h
-chassis_task\remote_control.o: ..\bsp\boards\bsp_rc.h
+chassis_task\remote_control.o: ../bsp/boards/bsp_rc.h
 chassis_task\remote_control.o: ../Inc/main.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 chassis_task\remote_control.o: ../Inc/stm32f4xx_hal_conf.h
@@ -20,9 +20,9 @@ chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 chassis_task\remote_control.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
-chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
+chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 chassis_task\remote_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h

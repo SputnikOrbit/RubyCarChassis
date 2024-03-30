@@ -1,7 +1,7 @@
 chassis_task\user_lib.o: ..\components\algorithm\user_lib.c
 chassis_task\user_lib.o: ..\components\algorithm\user_lib.h
-chassis_task\user_lib.o: ..\application\struct_typedef.h
-chassis_task\user_lib.o: ..\components\algorithm\Include\arm_math.h
+chassis_task\user_lib.o: ../application/struct_typedef.h
+chassis_task\user_lib.o: ../components/algorithm/Include/arm_math.h
 chassis_task\user_lib.o: ../Drivers/CMSIS/Include/core_cm4.h
 chassis_task\user_lib.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 chassis_task\user_lib.o: ../Drivers/CMSIS/Include/cmsis_version.h

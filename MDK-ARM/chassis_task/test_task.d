@@ -19,9 +19,9 @@ chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 chassis_task\test_task.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
-chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
+chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 chassis_task\test_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
@@ -53,5 +53,5 @@ chassis_task\test_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/tim
 chassis_task\test_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 chassis_task\test_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 chassis_task\test_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-chassis_task\test_task.o: ..\bsp\boards\bsp_buzzer.h
+chassis_task\test_task.o: ../bsp/boards/bsp_buzzer.h
 chassis_task\test_task.o: ..\application\detect_task.h

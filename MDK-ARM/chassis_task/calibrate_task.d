@@ -18,9 +18,9 @@ chassis_task\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/includ
 chassis_task\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 chassis_task\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 chassis_task\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-chassis_task\calibrate_task.o: ..\bsp\boards\bsp_buzzer.h
-chassis_task\calibrate_task.o: ..\bsp\boards\bsp_flash.h
+chassis_task\calibrate_task.o: ../bsp/boards/bsp_buzzer.h
+chassis_task\calibrate_task.o: ../bsp/boards/bsp_flash.h
 chassis_task\calibrate_task.o: ..\application\can_receive.h
 chassis_task\calibrate_task.o: ..\application\remote_control.h
-chassis_task\calibrate_task.o: ..\bsp\boards\bsp_rc.h
+chassis_task\calibrate_task.o: ../bsp/boards/bsp_rc.h
 chassis_task\calibrate_task.o: ..\application\INS_task.h

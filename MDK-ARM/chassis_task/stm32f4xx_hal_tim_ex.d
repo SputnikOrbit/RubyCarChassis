@@ -16,9 +16,9 @@ chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 chassis_task\stm32f4xx_hal_tim_ex.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
-chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
+chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 chassis_task\stm32f4xx_hal_tim_ex.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h

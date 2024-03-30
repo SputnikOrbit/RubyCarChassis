@@ -1,7 +1,7 @@
 chassis_task\led_flow_task.o: ..\application\led_flow_task.c
 chassis_task\led_flow_task.o: ..\application\led_flow_task.h
 chassis_task\led_flow_task.o: ..\application\struct_typedef.h
-chassis_task\led_flow_task.o: ..\bsp\boards\bsp_led.h
+chassis_task\led_flow_task.o: ../bsp/boards/bsp_led.h
 chassis_task\led_flow_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 chassis_task\led_flow_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 chassis_task\led_flow_task.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
@@ -34,9 +34,9 @@ chassis_task\led_flow_task.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/syste
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
-chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
+chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 chassis_task\led_flow_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h

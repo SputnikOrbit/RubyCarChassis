@@ -67,7 +67,7 @@
 #define MOTOR_SPEED_TO_CHASSIS_SPEED_WZ 0.25f
 
 
-#define MOTOR_DISTANCE_TO_CENTER 0.2f
+#define MOTOR_DISTANCE_TO_CENTER 0.2f //SPUTNIK MODEFIED FOR SMALL WHEEL
 
 //chassis task control time  2ms
 //底盘任务控制间隔 2ms

@@ -1,6 +1,6 @@
 chassis_task\bmi088middleware.o: ..\components\devices\BMI088Middleware.c
 chassis_task\bmi088middleware.o: ..\components\devices\BMI088Middleware.h
-chassis_task\bmi088middleware.o: ..\application\struct_typedef.h
+chassis_task\bmi088middleware.o: ../application/struct_typedef.h
 chassis_task\bmi088middleware.o: ../Inc/main.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 chassis_task\bmi088middleware.o: ../Inc/stm32f4xx_hal_conf.h
@@ -19,9 +19,9 @@ chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 chassis_task\bmi088middleware.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
-chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
+chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 chassis_task\bmi088middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
@@ -53,4 +53,4 @@ chassis_task\bmi088middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/incl
 chassis_task\bmi088middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 chassis_task\bmi088middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 chassis_task\bmi088middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-chassis_task\bmi088middleware.o: ..\bsp\boards\bsp_delay.h
+chassis_task\bmi088middleware.o: ../bsp/boards/bsp_delay.h
