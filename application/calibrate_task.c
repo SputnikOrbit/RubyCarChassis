@@ -105,6 +105,7 @@
 #include "can_receive.h"
 #include "remote_control.h"
 #include "INS_task.h"
+#include "usart.h"
 
 
 //include head,gimbal,gyro,accel,mag. gyro,accel and mag have the same data struct. total 5(CALI_LIST_LENGHT) devices, need data lenght + 5 * 4 bytes(name[3]+cali)
@@ -268,6 +269,12 @@ void calibrate_task(void const *pvParameters)
     {
 
         //RC_cmd_to_calibrate();
+            //update control temperature
+    head_cali.temperature = 40.0f;
+    if (head_cali.temperature > (int8_t)(GYRO_CONST_MAX_TEMP))
+    {
+        head_cali.temperature = (int8_t)(GYRO_CONST_MAX_TEMP);
+    }
 
         for (i = 0; i < CALI_LIST_LENGHT; i++)
         {
@@ -275,9 +282,11 @@ void calibrate_task(void const *pvParameters)
             {
                 if (cali_sensor[i].cali_hook != NULL)
                 {
-
+                    
                     if (cali_sensor[i].cali_hook(cali_sensor_buf[i], CALI_FUNC_CMD_ON))
                     {
+                    HAL_UART_Transmit(&huart1, "Gyro calibration start\r\n", 24, 100);
+
                         //done
                         cali_sensor[i].name[0] = cali_name[i][0];
                         cali_sensor[i].name[1] = cali_name[i][1];

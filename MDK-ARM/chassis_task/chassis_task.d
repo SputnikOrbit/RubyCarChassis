@@ -31,6 +31,7 @@ chassis_task\chassis_task.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 chassis_task\chassis_task.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 chassis_task\chassis_task.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 chassis_task\chassis_task.o: ..\application\detect_task.h
+chassis_task\chassis_task.o: ..\application\calibrate_task.h
 chassis_task\chassis_task.o: ..\application\INS_task.h
 chassis_task\chassis_task.o: ../Inc/usart.h
 chassis_task\chassis_task.o: ../Inc/main.h
@@ -67,3 +68,4 @@ chassis_task\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_t
 chassis_task\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 chassis_task\chassis_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 chassis_task\chassis_task.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+chassis_task\chassis_task.o: ../bsp/boards/bsp_buzzer.h

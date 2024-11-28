@@ -42,6 +42,7 @@
 #include "led_flow_task.h"
 /* USER CODE END Includes */
 #include <stdio.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
@@ -74,59 +75,51 @@ void MX_FREERTOS_Init(void);
 double keyset_vx = 0.0;/* USER CODE END PFP */
 double keyset_vy = 0.0;
 double keyset_wz = 0.0;
+uint8_t serial_i;
+char recv_data[48];
+
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void USART1_IRQHandler(void)
 {
+  fp32 vx_rec, vy_rec, wz_rec;
   volatile uint8_t data;
+
+  //receive interrupt 接收中断
   if (huart1.Instance->SR & UART_FLAG_RXNE) {
-    data = huart1.Instance->DR;
-    //transmit data
-    extern chassis_move_t chassis_move;
-    chassis_move_t *chassis_move_ptr = &chassis_move;
+    recv_data[serial_i] = huart1.Instance->DR;
+		data = recv_data[serial_i];
 
-    HAL_UART_Transmit(&huart1, "I drive speed ", 14, 100);
-    char buffer[10];
-    sprintf(buffer, "%.2f", keyset_vx);
-    HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), 100);
-    HAL_UART_Transmit(&huart1, "\r\n", 2, 100);
-    if(data == 'w')
-      {
-        keyset_vx += keyset_vx<1.0?0.1:0;
-      }
-    else if(data == 's')
-      {
-        keyset_vx -= keyset_vx>-1.0?0.1:0;
-      }
-      else if(data == 'a')
-      {
-        keyset_vy += keyset_vy<1.0?0.1:0;
-      }
-      else if(data == 'd')
-      {
-        keyset_vy -= keyset_vy>-1.0?0.1:0;
-      }
-      else if(data == 'q')
-      {
-        keyset_wz += keyset_wz<1.0?0.1:0;
-      }
-      else if(data == 'e')
-      {
-        keyset_wz -= keyset_wz>-1.0?0.1:0;
-      }
-			else if(data == 'x')
-			{
-				keyset_vx = 0;
-				keyset_vy = 0;
-				keyset_wz = 0;
-			}
-    HAL_UART_Transmit(&huart1, "I drive over speed: ", 20, 100);
-    char buffer2[10];
-    sprintf(buffer2, "%.2f", keyset_vx);
-    HAL_UART_Transmit(&huart1, (uint8_t*)buffer2, strlen(buffer2), 100);
-    HAL_UART_Transmit(&huart1, "\r\n", 2, 100);
+    if (recv_data[serial_i] == 's') {
+        //data validation
 
-}
+        if (recv_data[serial_i - 1] == 'p')
+        {
+
+         int rec = sscanf(recv_data, "x%fy%fz%fps", &vx_rec, &vy_rec, &wz_rec); 
+          if (rec != 3) {
+          }
+          else
+          {
+            //data correct, so give the value
+            keyset_vx = vx_rec;
+            keyset_vy = vy_rec;
+            keyset_wz = wz_rec;
+            char buffer[25];
+            sprintf(buffer, "x%.2fy%.2fz%.2f\r\n", vx_rec, vy_rec, wz_rec);
+            HAL_UART_Transmit(&huart1, buffer, strlen(buffer), 100);
+            HAL_UART_Transmit(&huart1, "\r\n", 2, 100);
+          }
+        }
+		serial_i = 0;
+    }
+		else{
+      serial_i++;
+    }
+    }
+
+  //Simple frame: x0.0y0.0z0.0
+  
 }
 /* USER CODE END 0 */
 
@@ -163,7 +156,7 @@ int main(void)
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_SPI1_Init();
-  //MX_TIM4_Init();
+  MX_TIM4_Init();
   MX_TIM5_Init();
   MX_USART3_UART_Init();
   MX_TIM8_Init();
@@ -174,7 +167,7 @@ int main(void)
   //MX_I2C1_Init();
   MX_USART1_UART_Init();
   __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);  //receive interrupt
-  USART1_IRQHandler();
+  //__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);  //idle interrupt
   /* USER CODE BEGIN 2 */
     can_filter_init();
     delay_init();
@@ -188,6 +181,7 @@ int main(void)
   /* Start scheduler */
   osKernelStart();
 
+ 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

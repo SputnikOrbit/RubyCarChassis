@@ -73,3 +73,4 @@ chassis_task\main.o: ../application/detect_task.h
 chassis_task\main.o: ../application/INS_task.h
 chassis_task\main.o: ../application/led_flow_task.h
 chassis_task\main.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+chassis_task\main.o: C:\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h

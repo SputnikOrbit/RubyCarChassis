@@ -10,6 +10,8 @@
         "stm32f4xx_hal_tim.h": "c",
         "usart.h": "c",
         "stm32f4xx_it.h": "c",
-        "remote_control.h": "c"
+        "remote_control.h": "c",
+        "bsp_buzzer.h": "c",
+        "struct_typedef.h": "c"
     }
 }

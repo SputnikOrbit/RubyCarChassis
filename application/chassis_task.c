@@ -26,10 +26,12 @@
 #include "remote_control.h"
 #include "CAN_receive.h"
 #include "detect_task.h"
+#include "calibrate_task.h"
 #include "INS_task.h"
 //引入Uart transmit
 #include "usart.h"
 #include <stdio.h>
+#include "bsp_buzzer.h"
 
 #define rc_deadband_limit(input, output, dealine)        \
     {                                                    \
@@ -160,6 +162,13 @@ void chassis_task(void const *pvParameters)
     write_fake_signal(&fake_signal);
     chassis_move.chassis_RC = &fake_signal;
 
+         //gyro cali
+    extern cali_sensor_t cali_sensor[CALI_LIST_LENGHT];
+    cali_sensor[CALI_GYRO].cali_cmd = 1;
+    
+    vTaskDelay(20000);
+
+
 
     //SPUTNIK_ADDED: UART1 chassis task heartbeat
     extern UART_HandleTypeDef huart1;
@@ -183,24 +192,23 @@ void chassis_task(void const *pvParameters)
     }
     //int motor0_setcur = chassis_move.motor_chassis[0].give_current;
 
+
     while (1)
     {
         //set chassis control mode
         //设置底盘控制模式
-        chassis_set_mode(&chassis_move); //SPUTNIK MODEFIED
+        //chassis_set_mode(&chassis_move); //SPUTNIK MODEFIED
         //when mode changes, some data save
         //模式切换数据保存
 
-        chassis_mode_change_control_transit(&chassis_move);
-
+        //chassis_mode_change_control_transit(&chassis_move);
+        buzzer_off();
         //chassis data update
         //底盘数据更新
         chassis_feedback_update(&chassis_move);
         //set chassis control set-point 
         //底盘控制量设置
         chassis_set_contorl(&chassis_move);
-        HAL_UART_Transmit(&huart1, "I confirm currn ", 16, 100);
-        char buffer [10];
         //chassis control pid calculate
         //底盘控制PID计算
         chassis_control_loop(&chassis_move);
@@ -272,7 +280,7 @@ static void chassis_init(chassis_move_t *chassis_move_init)
 
     //in beginning， chassis mode is raw 
     //底盘开机状态为原始
-    chassis_move_init->chassis_mode = CHASSIS_VECTOR_RAW;
+    chassis_move_init->chassis_mode = CHASSIS_VECTOR_FOLLOW_CHASSIS_YAW;
     //get remote control point
     //获取遥控器指针
 
@@ -334,7 +342,7 @@ static void chassis_set_mode(chassis_move_t *chassis_move_mode)
     }
     //in file "chassis_behaviour.c"
     //chassis_behaviour_mode_set(chassis_move_mode);
-    chassis_move_mode->chassis_mode = CHASSIS_VECTOR_RAW;
+    chassis_move_mode->chassis_mode = CHASSIS_VECTOR_FOLLOW_CHASSIS_YAW;
 }
 
 /**
@@ -456,8 +464,12 @@ void chassis_rc_to_control_vector(fp32 *vx_set, fp32 *vy_set, chassis_move_t *ch
     rc_deadband_limit(chassis_move_rc_to_vector->chassis_RC->rc.ch[CHASSIS_X_CHANNEL], vx_channel, CHASSIS_RC_DEADLINE);
     rc_deadband_limit(chassis_move_rc_to_vector->chassis_RC->rc.ch[CHASSIS_Y_CHANNEL], vy_channel, CHASSIS_RC_DEADLINE);
 
-    vx_set_channel = vx_channel * CHASSIS_VX_RC_SEN;
-    vy_set_channel = vy_channel * -CHASSIS_VY_RC_SEN;
+    // vx_set_channel = vx_channel * CHASSIS_VX_RC_SEN;
+    // vy_set_channel = vy_channel * -CHASSIS_VY_RC_SEN;
+    extern double keyset_vx;
+    extern double keyset_vy;
+    vx_set_channel = keyset_vx;
+    vy_set_channel = keyset_vy;
 
     //keyboard set speed set-point
     //键盘控制
@@ -520,9 +532,15 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
     fp32 vx_set = 0.0f, vy_set = 0.0f, angle_set = 0.0f;
     //get three control set-point, 获取三个控制设置值
     // chassis_behaviour_control_set(&vx_set, &vy_set, &angle_set, chassis_move_control);
-
+    chassis_behaviour_control_set(&vx_set, &vy_set, &angle_set, chassis_move_control);
     //SPUTNIK_ADDED: chassis rc fake
     //chassis_move_control -> chassis_mode = CHASSIS_VECTOR_RAW;
+    extern double keyset_vx;
+    extern double keyset_vy;
+    extern double keyset_wz;
+    vx_set = keyset_vx;
+    vy_set = keyset_vy;
+    angle_set = keyset_wz;
 
     //follow gimbal mode
     //跟随云台模式
@@ -582,12 +600,7 @@ static void chassis_set_contorl(chassis_move_t *chassis_move_control)
         chassis_move_control->chassis_cmd_slow_set_vy.out = 0.0f;
     }
               //SPUTNIK_ADDED: UART1 chassis communication control
-    extern double keyset_vx;
-    extern double keyset_vy;
-    extern double keyset_wz;
-    chassis_move_control->vx_set += keyset_vx;
-    chassis_move_control->vy_set += keyset_vy;
-    chassis_move_control->wz_set += keyset_wz;
+    
 }
 
 /**
